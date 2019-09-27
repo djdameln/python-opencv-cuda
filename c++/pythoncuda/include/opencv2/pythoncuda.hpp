@@ -65,7 +65,11 @@ namespace cv
                                            double pyr_scale, int levels, int winsize,
                                            int iterations, int poly_n, double poly_sigma,
                                            int flags );
-        
+
+        CV_EXPORTS_W void gpuOpticalFlowBrox( InputArray prev, InputArray next, InputOutputArray flow,
+                                           double alpha, double gamma, double scale_factor,
+                                           int inner_iterations, int outer_iterations, int solver_iterations );
+
         CV_EXPORTS_W void cpuOpticalFlowPyrLK( InputArray prevImg, InputArray nextImg,
                                             InputArray prevPts, InputOutputArray nextPts,
                                             OutputArray status, OutputArray err,

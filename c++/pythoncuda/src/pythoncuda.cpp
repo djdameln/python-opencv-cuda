@@ -80,7 +80,26 @@ namespace cv
             farn->calc(d_prev, d_next, d_flow);
             d_flow.download(flow);
         }
-        
+
+        CV_EXPORTS_W void gpuOpticalFlowBrox( InputArray prev, InputArray next, InputOutputArray flow,
+                                           double alpha, double gamma, double scale_factor,
+                                           int inner_iterations, int outer_iterations, int solver_iterations )
+        {
+            cv::Ptr<cv::cuda::BroxOpticalFlow> brox = cv::cuda::BroxOpticalFlow::create();
+            brox->setFlowSmoothness(alpha);
+            brox->setGradientConstancyImportance(gamma);
+            brox->setInnerIterations(inner_iterations);
+            brox->setOuterIterations(outer_iterations);
+            brox->setPyramidScaleFactor(scale_factor);
+            brox->setSolverIterations(solver_iterations);
+
+            cv::cuda::GpuMat d_flow, d_prev, d_next;
+            d_prev.upload(prev);
+            d_next.upload(next);
+            brox->calc(d_prev, d_next, d_flow);
+            d_flow.download(flow);
+        }
+
         CV_EXPORTS_W void cpuOpticalFlowPyrLK( InputArray prevImg, InputArray nextImg,
                                         InputArray prevPts, InputOutputArray nextPts,
                                         OutputArray status, OutputArray err,
